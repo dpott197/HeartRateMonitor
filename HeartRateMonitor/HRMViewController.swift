@@ -31,9 +31,9 @@
 import UIKit
 import CoreBluetooth
 
-let heartRateServiceCBUUID = CBUUID(string: "0x181D")
-let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "2A61")
-let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A62")
+let weightScaleServiceCBUUID = CBUUID(string: "0x181D")
+let weightScaleFirstCharacteristicCBUUID = CBUUID(string: "2A61")
+let weightScaleSecondCharacteristicCBUUID = CBUUID(string: "2A62")
 
 class HRMViewController: UIViewController {
 
@@ -73,7 +73,7 @@ extension HRMViewController: CBCentralManagerDelegate {
       print("central.state is .poweredOff")
     case .poweredOn:
       print("central.state is .poweredOn")
-      centralManager.scanForPeripherals(withServices: [heartRateServiceCBUUID])
+      centralManager.scanForPeripherals(withServices: [weightScaleServiceCBUUID])
     }
   }
 
@@ -88,7 +88,7 @@ extension HRMViewController: CBCentralManagerDelegate {
 
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     print("Connected!")
-    heartRatePeripheral.discoverServices([heartRateServiceCBUUID])
+    heartRatePeripheral.discoverServices([weightScaleServiceCBUUID])
   }
 }
 
@@ -120,10 +120,10 @@ extension HRMViewController: CBPeripheralDelegate {
 
   func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
     switch characteristic.uuid {
-    case bodySensorLocationCharacteristicCBUUID:
+    case weightScaleSecondCharacteristicCBUUID:
       let bodySensorLocation = bodyLocation(from: characteristic)
       bodySensorLocationLabel.text = bodySensorLocation
-    case heartRateMeasurementCharacteristicCBUUID:
+    case weightScaleFirstCharacteristicCBUUID:
       let bpm = heartRate(from: characteristic)
       onHeartRateReceived(bpm)
     default:
