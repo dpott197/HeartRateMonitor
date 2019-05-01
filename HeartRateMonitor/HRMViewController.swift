@@ -31,9 +31,9 @@
 import UIKit
 import CoreBluetooth
 
-let heartRateServiceCBUUID = CBUUID(string: "0x180D")
-let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "2A37")
-let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A38")
+let heartRateServiceCBUUID = CBUUID(string: "0x181D")
+let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "2A61")
+let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A62")
 
 class HRMViewController: UIViewController {
 
@@ -136,15 +136,8 @@ extension HRMViewController: CBPeripheralDelegate {
       let byte = characteristicData.first else { return "Error" }
 
     switch byte {
-    case 0: return "Other"
-    case 1: return "Chest"
-    case 2: return "Wrist"
-    case 3: return "Finger"
-    case 4: return "Hand"
-    case 5: return "Ear Lobe"
-    case 6: return "Foot"
     default:
-      return "Reserved for future use"
+      return "\(byte)"
     }
   }
 
